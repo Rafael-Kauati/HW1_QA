@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: traveller
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  spring-app:
+    image: traveller:latest
+    container_name: traveler
+    build: ./backend
+    environment:
+      SPRING_APPLICATION_JSON: '{"server.port": "9090", 
+        "spring.datasource.url": "jdbc:mysql://mysql:3306/traveller", 
+        "spring.datasource.username": "user", "spring.datasource.password": "secret", 
+        "spring.jpa.hibernate.ddl-auto": "update", "spring.jpa.show-sql": "true",
+        "logging.file.name":"traveler.log", "logging.level.root":"INFO"
+      }'
+    ports:
+      - "9090:9090"
+
+    depends_on:
+      - mysql

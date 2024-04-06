@@ -1,0 +1,125 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+
+.travel-list {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.travel-item {
+  background-color: #0a0909;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.travel-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.from-to {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.date {
+  margin-bottom: 5px;
+}
+
+.seats,
+.price {
+  margin-bottom: 5px;
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
+  color: #888;
+}
+
+
+.buttonItem{
+  background-color: #9e8a8a;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between; /* Positions elements with space between them */
+}
+
+.travel-list,
+.ticket-list {
+  width: 48%; /* Adjust width as needed */
+}
+
+.travel-list {
+  margin-right: 10px; /* Add some space between the lists */
+}
+
+.ticket-list {
+  background-color: #1b1a1a; /* Example background color */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Additional styles for the ticket table */
+.ticket-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-list th,
+.ticket-list td {
+  padding: 8px;
+  border-bottom: 1px solid #2e2a2a;
+}
+
+.ticket-list th {
+  background-color: #201a1a;
+  font-weight: bold;
+}
