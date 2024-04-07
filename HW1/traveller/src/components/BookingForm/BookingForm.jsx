@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import Select from "react-select";
 const BookingForm = ({ searchCallback, currencyCallback}) => {
@@ -81,6 +82,11 @@ const BookingForm = ({ searchCallback, currencyCallback}) => {
       <button type="submit">Search</button>
     </form>
   );
+};
+
+BookingForm.propTypes = {
+  searchCallback: PropTypes.func.isRequired,
+  currencyCallback: PropTypes.func.isRequired
 };
 
 export default BookingForm;

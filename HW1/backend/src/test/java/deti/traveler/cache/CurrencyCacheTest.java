@@ -18,14 +18,14 @@ public class CurrencyCacheTest
 
     @Test
     //@Disabled
-    public void testCacheExpired() throws IOException, InterruptedException {
+    void testCacheExpired() throws IOException, InterruptedException {
         Thread.sleep(6000);
         assertTrue(cache.isCacheExpired());
     }
 
     @Test
     //@Disabled
-    public void testCacheUpdate() throws IOException, InterruptedException {
+    void testCacheUpdate() throws IOException, InterruptedException {
         Thread.sleep(6000);
         cache.convertValue(CURRENCY.USD, 200);
         assertFalse(cache.isCacheExpired());

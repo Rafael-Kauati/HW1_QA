@@ -28,7 +28,7 @@ public class ApiCurrency
     private  Map<String, Double> currencyMap = new HashMap<>();
 
 
-    public void Fetch_and_Store_Currency() throws IOException, InterruptedException {
+    public void fetchandStoreCurrency() throws IOException, InterruptedException {
         final String fullCommand = CMD + "\"" + BASEURL + KEY + "\"" + OUTPUT;
         ProcessBuilder processBuilder = new ProcessBuilder();
 
@@ -40,7 +40,7 @@ public class ApiCurrency
         log.error("\nExited with error code : " + exitCode);
     }
 
-    public void Fetch_Currency() throws IOException, InterruptedException {
+    public void fetchCurrency() throws IOException, InterruptedException {
         final String fullCommand = CMD + "\"" + BASEURL + KEY + "\"";
         ProcessBuilder processBuilder = new ProcessBuilder();
 

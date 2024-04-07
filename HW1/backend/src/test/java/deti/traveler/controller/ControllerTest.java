@@ -1,7 +1,6 @@
 package deti.traveler.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import deti.traveler.entity.Model.TravelModel;
 import deti.traveler.entity.Ticket;
 import deti.traveler.entity.Travel;
 import deti.traveler.entity.TravelTicketDTO;
@@ -63,9 +62,6 @@ class ControllerTest
 
     @Test
     void testSearchByGivenCities() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        String travelModelJson = objectMapper.writeValueAsString(new TravelModel("Dublin, Ireland", "Galway, Ireland", LocalDate.now(), 6));
 
         mockController.perform(get("/cities/EUR")
                         .contentType(MediaType.APPLICATION_JSON)

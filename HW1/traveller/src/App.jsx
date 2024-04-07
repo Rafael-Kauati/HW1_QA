@@ -69,12 +69,12 @@ function App() {
         ) : (
           <ul>
             {searchData.map((item) => (
-              <li key={item.id} className="travel-item">
-                <div className="travel-details">
+  <li key={`${item.fromcity}-${item.tocity}-${index}`} className="travel-item">                   <div className="travel-details">
                   <p className="from-to">
                     From {item.fromcity} to {item.tocity}
                   </p>
                   <p className="date">Departure Date: {item.departure}</p>
+                  <p className="date">Departure Date: {item.id}</p>
                   <p className="date">Arrival Date: {item.arrive}</p>
                   <p className="seats">Seats availables: {item.numseats}</p>
                   <p className="price">Price: ${item.price.toFixed(2)} {currencyOpt}</p>
@@ -89,6 +89,7 @@ function App() {
       {selectedTravel && (
         <div className="order-window">
           <h2>Order Details</h2>
+          <p>From: {selectedTravel.id}</p>
           <p>From: {selectedTravel.fromcity}</p>
           <p>To: {selectedTravel.tocity}</p>
           <p>Departure : {selectedTravel.departure}</p>

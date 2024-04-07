@@ -24,13 +24,13 @@ public class CurrencyConverter
     }
 
     public void updateCacheCurrency() throws IOException, InterruptedException {
-        this.currency.Fetch_Currency();
+        this.currency.fetchCurrency();
         this.currencyValues = currency.getCurrencyMap();
     }
 
     public CurrencyConverter() throws IOException, InterruptedException {
         this.currency = new ApiCurrency();
-        this.currency.Fetch_Currency();
+        this.currency.fetchCurrency();
         this.currencyValues = currency.getCurrencyMap();
     }
 
