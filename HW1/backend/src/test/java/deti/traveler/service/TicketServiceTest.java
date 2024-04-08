@@ -43,10 +43,9 @@ class TicketServiceTest {
         // Mock data
         Long travelId = 1L;
         String owner = "John Doe";
-        LocalDateTime now = LocalDateTime.now();
         Travel travel = new Travel();
         travel.setId(travelId);
-        travel.setNumseats(10); // Assuming there are 10 seats available
+        travel.setNumseats(10);
         Optional<Travel> optionalTravel = Optional.of(travel);
 
         // Mock behavior
@@ -73,7 +72,15 @@ class TicketServiceTest {
     void testRetrieveTickets() {
         String owner = "John Doe";
         List<TravelTicketDTO> expectedTickets = new ArrayList<>();
-        TravelTicketDTO ticket1 = new TravelTicketDTO(1L, owner, LocalDateTime.now(), 1L, 2, LocalDate.now(), LocalDate.now(), "CityA", 100.0, "CityB");        expectedTickets.add(ticket1);
+
+        TravelTicketDTO ticket1 = TravelTicketDTO.builder()
+                .price(100.0).toCity("CityB").fromCity("CityA")
+                .arrive( LocalDate.now()).departure( LocalDate.now()).ticketId(1L)
+                .owner("James Lee")
+                .travelId(1L).numOfSeats(2).purchasedAt(LocalDateTime.now())
+                .build();
+
+        expectedTickets.add(ticket1);
 
         when(ticketRepository.findTicketDetails(owner)).thenReturn(expectedTickets);
 

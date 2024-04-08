@@ -1,14 +1,13 @@
 package deti.traveler.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
-@Data
+@Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TravelTicketDTO {
@@ -36,20 +35,4 @@ public class TravelTicketDTO {
         this.toCity = toCity;
     }
 
-
-
-    public TravelTicketDTO(long l, String owner, LocalDateTime now,
-                           long l1, int i, LocalDate now1, LocalDate now2,
-                           String cityA, double v, String cityB) {
-        this.ticketId = l;
-        this.owner = owner;
-        this.purchasedAt = now;
-        this.travelId = l1;
-        this.numOfSeats = i;
-        this.arrive = now1;
-        this.departure = now2;
-        this.fromCity = cityA;
-        this.price = v;
-        this.toCity = cityB;
-    }
 }

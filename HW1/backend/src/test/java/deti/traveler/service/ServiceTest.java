@@ -69,6 +69,21 @@ class ServiceTest
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void testGetTravelExceptionHandling() throws IOException, InterruptedException {
+        String fromCity = "CityX";
+        String toCity = "CityY";
+        LocalDate departure = LocalDate.of(2024, 3, 25);
+        int numSeats = 2;
+
+        when(travelRepository.findByFromcityAndTocityAndDepartureAndNumseatsIsGreaterThanEqual(anyString(), anyString(), any(LocalDate.class), anyInt()))
+                .thenThrow(new RuntimeException("Database connection failed"));
+
+        assertThrows(RuntimeException.class, () -> {
+            travelService.getTravel(fromCity, toCity, departure, numSeats, CURRENCY.EUR);
+        });
+    }
+
     @BeforeEach
     void setUp() {
         reset(travelRepository);
