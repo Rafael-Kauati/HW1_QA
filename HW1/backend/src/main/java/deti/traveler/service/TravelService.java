@@ -95,13 +95,10 @@ public class TravelService
         }
         else{
             log.info("Tickets found for passager "+owner+" :\n"+result);
-            result.forEach(t -> {
-                try {
+            for (TravelTicketDTO t : result) {
                     t.setPrice(converter.convertValue(currency, t.getPrice()));
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            }
+
         }
 
         return result;
