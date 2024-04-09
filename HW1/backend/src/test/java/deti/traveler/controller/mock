@@ -1,0 +1,36 @@
+@Test
+    void testSearchByGivenCities() throws Exception {
+        MvcResult result = mockController.perform(get("/cities/EUR")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("fromCity", "Dublin, Ireland")
+                        .param("toCity", "Galway, Ireland")
+                        .param("departure", LocalDate.now().toString())
+                        .param("numSeats", "6")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        assertTrue(content.contains("Dublin, Ireland")); // Assert that the response contains "Dublin, Ireland"
+        assertTrue(content.contains("Galway, Ireland")); // Assert that the response contains "Galway, Ireland"
+    }
+
+    @Test
+        void testGetTicketsByOwner() throws Exception {
+            MvcResult result = mockController.perform(get("/tickets/JohnDoe?currency=EUR"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].ticketId").value(1))
+                    .andExpect(jsonPath("$[0].owner").value("JohnDoe"))
+                    .andExpect(jsonPath("$[0].numOfSeats").value(2))
+                    .andExpect(jsonPath("$[1].ticketId").value(2))
+                    .andReturn();
+
+            String content = result.getResponse().getContentAsString();
+            assertTrue(content.contains("\"ticketId\":1")); // Assert that the response contains ticketId with value 1
+            assertTrue(content.contains("\"owner\":\"JohnDoe\"")); // Assert that the response contains owner field with value "JohnDoe"
+            assertTrue(content.contains("\"numOfSeats\":2")); // Assert that the response contains numOfSeats with value 2
+            assertTrue(content.contains("\"ticketId\":2")); // Assert that the response contains ticketId with value 2
+        }

@@ -40,7 +40,7 @@ public class TravelController {
     }
 
     @GetMapping("/tickets/{owner}")
-    public ResponseEntity<List<TravelTicketDTO>> getTicketsByOwner(@PathVariable String owner){
-        return new ResponseEntity<>(service.retrieveTickets(owner), HttpStatus.OK);
+    public ResponseEntity<List<TravelTicketDTO>> getTicketsByOwner(@PathVariable String owner, @RequestParam("currency") CURRENCY currency) throws IOException, InterruptedException {
+        return new ResponseEntity<>(service.retrieveTickets(owner, currency), HttpStatus.OK);
     }
 }

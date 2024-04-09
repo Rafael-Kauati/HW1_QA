@@ -7,6 +7,7 @@ import deti.traveler.entity.TravelTicketDTO;
 import deti.traveler.service.TravelService;
 import deti.traveler.service.utils.CURRENCY;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -39,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.test.web.servlet.MvcResult;
 
 //@WebMvcTest(controllers = TravelController.class)
 @AutoConfigureMockMvc
@@ -63,8 +67,7 @@ class ControllerTest
 
     @Test
     void testSearchByGivenCities() throws Exception {
-
-        mockController.perform(get("/cities/EUR")
+        MvcResult result = mockController.perform(get("/cities/EUR")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("fromCity", "Dublin, Ireland")
                         .param("toCity", "Galway, Ireland")
@@ -72,42 +75,18 @@ class ControllerTest
                         .param("numSeats", "6")
                 )
                 .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-
-    @Test
-    void TestPurchaseTicketForATravel() throws Exception {
-
-        //'http://localhost:9090/purchase/1?owner=JohnDoe&numSeatsBooked=2'
-
-        mockController.perform(get("/purchase/1")
-                        .param("owner", "JohnDoe")
-                        .param("numSeatsBooked", "2")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    void testGetTicketsByOwner() throws Exception {
-
-
-        mockController.perform(get("/tickets/JohnDoe"))
-                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].ticketId").value(1))
-                .andExpect(jsonPath("$[0].owner").value("JohnDoe"))
-                .andExpect(jsonPath("$[0].numOfSeats").value(2))
-                .andExpect(jsonPath("$[1].ticketId").value(2));
-    }
+                .andReturn();
 
+        String content = result.getResponse().getContentAsString();
+        assertTrue(content.contains("Dublin, Ireland"));
+        assertTrue(content.contains("Galway, Ireland"));
+    }
     @Test
     void testGetTravelsBetweenCitiesNotFound() throws Exception {
 
 
-        mockController.perform(get("/cities/EUR")
+        MvcResult result = mockController.perform(get("/cities/EUR")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("fromCity", "Paris, France")
                         .param("toCity", "Madrid, Spain")
@@ -115,8 +94,50 @@ class ControllerTest
                         .param("numSeats", String.valueOf(6))
                 )
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound()).andReturn();
+
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(404, statusCode);
     }
+
+
+
+    @Test
+    void TestPurchaseTicketForATravel() throws Exception {
+
+        //'http://localhost:9090/purchase/1?owner=JohnDoe&numSeatsBooked=2'
+
+        MvcResult result = mockController.perform(get("/purchase/1")
+                        .param("owner", "JohnDoe")
+                        .param("numSeatsBooked", "2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(201, statusCode);
+    }
+
+    @Test
+    void testGetTicketsByOwner() throws Exception {
+        MvcResult result = mockController.perform(get("/tickets/JohnDoe?currency=EUR"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].ticketId").value(1))
+                .andExpect(jsonPath("$[0].owner").value("JohnDoe"))
+                .andExpect(jsonPath("$[0].numOfSeats").value(2))
+                .andExpect(jsonPath("$[1].ticketId").value(2))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        assertTrue(content.contains("\"ticketId\":1"));
+        assertTrue(content.contains("\"owner\":\"JohnDoe\""));
+        assertTrue(content.contains("\"numOfSeats\":2"));
+        assertTrue(content.contains("\"ticketId\":2"));
+    }
+
 
 
 
@@ -156,7 +177,7 @@ class ControllerTest
                 td1,
                 td2
         );
-        when(service.retrieveTickets(anyString())).thenReturn(tickets);
+        when(service.retrieveTickets(anyString(), any(CURRENCY.class))).thenReturn(tickets);
 
 
         String fromCity = "Paris, France";

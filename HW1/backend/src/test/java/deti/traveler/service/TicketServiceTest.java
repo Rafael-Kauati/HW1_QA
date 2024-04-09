@@ -3,6 +3,7 @@ package deti.traveler.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import deti.traveler.entity.Travel;
 import deti.traveler.entity.TravelTicketDTO;
 import deti.traveler.repository.TicketRepository;
 import deti.traveler.repository.TravelRepository;
+import deti.traveler.service.utils.CURRENCY;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -69,7 +71,7 @@ class TicketServiceTest {
 
 
     @Test
-    void testRetrieveTickets() {
+    void testRetrieveTickets() throws IOException, InterruptedException {
         String owner = "John Doe";
         List<TravelTicketDTO> expectedTickets = new ArrayList<>();
 
@@ -84,7 +86,7 @@ class TicketServiceTest {
 
         when(ticketRepository.findTicketDetails(owner)).thenReturn(expectedTickets);
 
-        List<TravelTicketDTO> actualTickets = ticketService.retrieveTickets(owner);
+        List<TravelTicketDTO> actualTickets = ticketService.retrieveTickets(owner, CURRENCY.EUR);
 
         assertNotNull(actualTickets);
         assertEquals(expectedTickets.size(), actualTickets.size());

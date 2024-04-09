@@ -5,22 +5,19 @@ import axios from 'axios';
 
 function App() {
   const [searchData, setSearchData] = useState([]);
-  const [currencyOpt, setCurrencyOpt] = useState(null);
+  const [currencyOpt, setCurrencyOpt] = useState("USD");
   const [selectedTravel, setSelectedTravel] = useState(null); // To store the selected travel item
   const [numSeatsToPurchase, setNumSeatsToPurchase] = useState(1); // To store the number of seats to purchase
   const [tickets, setTickets] = useState([]); // To store the ticket data
 
   useEffect(() => {
-    // Fetch tickets when the component mounts
     fetchTickets();
   }, []);
 
   const fetchTickets = () => {
-    // Fetch tickets from the endpoint
-    axios.get(`http://localhost:9090/tickets/JamesLee`)
+    axios.get(`http://localhost:9090/tickets/JamesLee?currency=${currencyOpt}`)
       .then(response => {
         setTickets(response.data);
-        console.log(tickets)
       })
       .catch(error => {
         console.error('Error fetching tickets:', error);
@@ -31,10 +28,15 @@ function App() {
     setSearchData(data);
   };
 
+  const handleCurrencySelection = (currency) =>
+  {
+      console.log("Choosen currency : ", currencyOpt)
+      setCurrencyOpt(currency);
+      fetchTickets();
+  }
+
   const handlePurchase = (travel) => {
-    // Set the selected travel item
     setSelectedTravel(travel);
-    // Here you can navigate to a new page or open a modal for the purchase
     console.log('Purchase:', travel);
   };
 
@@ -62,14 +64,15 @@ function App() {
 
   return (
     <div className="container">
-      <BookingForm searchCallback={SearchTravelHandler} currencyCallback={setCurrencyOpt} />
+      <BookingForm searchCallback={SearchTravelHandler} currencyCallback={handleCurrencySelection} />
       <div className="travel-list">
         {searchData.length === 0 ? (
           <p className="no-results">No search results available.</p>
         ) : (
           <ul>
             {searchData.map((item) => (
-  <li key={`${item.fromcity}-${item.tocity}-${index}`} className="travel-item">                   <div className="travel-details">
+  <li key={`${item.id}`} className="travel-item">                  
+   <div className="travel-details">
                   <p className="from-to">
                     From {item.fromcity} to {item.tocity}
                   </p>
@@ -77,7 +80,7 @@ function App() {
                   <p className="date">Departure Date: {item.id}</p>
                   <p className="date">Arrival Date: {item.arrive}</p>
                   <p className="seats">Seats availables: {item.numseats}</p>
-                  <p className="price">Price: ${item.price.toFixed(2)} {currencyOpt}</p>
+                  <p className="price">Price: ${item.price.toFixed(2)} <p id='selectedCurrencyShow'>{currencyOpt}</p></p>
                   <button className='buttonItem' onClick={() => handlePurchase(item)}>Purchase</button>
                 </div>
               </li>
@@ -95,7 +98,7 @@ function App() {
           <p>Departure : {selectedTravel.departure}</p>
           <p>Arrival : {selectedTravel.arrive}</p>
           <p>Seats availables: {selectedTravel.numseats}</p>
-          <p>Price: ${selectedTravel.price.toFixed(2)} ${currencyOpt}</p>
+          <p>Price: ${selectedTravel.price.toFixed(2)}</p> 
           <label htmlFor="numSeats">Number of Seats to Purchase:</label>
           <input
             type="number"

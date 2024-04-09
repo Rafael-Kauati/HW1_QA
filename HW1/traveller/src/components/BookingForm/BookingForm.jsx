@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Select from "react-select";
@@ -16,10 +16,16 @@ const BookingForm = ({ searchCallback, currencyCallback}) => {
     const apiUrl = `http://localhost:9090/cities/${currency.value}?fromCity=${departureCity}&toCity=${destinationCity}&departure=${departureDate}&numSeats=${numSeats}`;
   
     const response = await axios.get(apiUrl);
+    console.log(response.data)
 
     searchCallback(response.data)
     currencyCallback(currency.value)
   };
+
+  const handleCurrencySelection = (currency) => {
+    //currencyCallback(currency.value)
+
+  }
 
   const currency_options = [
     { value: "EUR", label: "EUR" },

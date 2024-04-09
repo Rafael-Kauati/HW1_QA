@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class TravelTicketDTO {
     private Long ticketId;
     private String owner;
@@ -19,6 +18,7 @@ public class TravelTicketDTO {
     private LocalDate arrive;
     private LocalDate departure;
     private String fromCity;
+    @Setter
     private Double price;
     private String toCity;
 

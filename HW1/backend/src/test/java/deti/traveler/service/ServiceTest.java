@@ -70,7 +70,7 @@ class ServiceTest
     }
 
     @Test
-    void testGetTravelExceptionHandling() throws IOException, InterruptedException {
+    void testGetTravelExceptionHandling()  {
         String fromCity = "CityX";
         String toCity = "CityY";
         LocalDate departure = LocalDate.of(2024, 3, 25);
