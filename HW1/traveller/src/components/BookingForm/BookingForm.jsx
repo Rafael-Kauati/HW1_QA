@@ -22,10 +22,7 @@ const BookingForm = ({ searchCallback, currencyCallback}) => {
     currencyCallback(currency.value)
   };
 
-  const handleCurrencySelection = (currency) => {
-    //currencyCallback(currency.value)
 
-  }
 
   const currency_options = [
     { value: "EUR", label: "EUR" },

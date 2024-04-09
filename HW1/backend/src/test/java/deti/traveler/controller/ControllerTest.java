@@ -103,7 +103,7 @@ class ControllerTest
 
 
     @Test
-    void TestPurchaseTicketForATravel() throws Exception {
+    void testPurchaseTicketForATravel() throws Exception {
 
         //'http://localhost:9090/purchase/1?owner=JohnDoe&numSeatsBooked=2'
 
